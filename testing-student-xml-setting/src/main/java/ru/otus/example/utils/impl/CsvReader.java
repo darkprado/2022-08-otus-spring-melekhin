@@ -27,17 +27,16 @@ public class CsvReader implements Reader {
 
     private String fileName;
 
-    public void setFileName(String fileName) {
+    public CsvReader(String fileName) {
         this.fileName = fileName;
     }
 
     @Override
     public List<QuestionDto> readFile() {
 
-        try {
-            BufferedReader fileReader = new BufferedReader(new InputStreamReader(
-                    Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).openStream(), StandardCharsets.UTF_8)
-            );
+        try(BufferedReader fileReader = new BufferedReader(new InputStreamReader(
+                Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(fileName)), StandardCharsets.UTF_8)
+        )) {
             CSVParser csvParser = new CSVParser(fileReader, CSVFormat.newFormat(DELIMITER));
             return csvParser.getRecords()
                     .stream()

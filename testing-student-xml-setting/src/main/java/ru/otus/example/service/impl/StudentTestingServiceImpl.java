@@ -1,12 +1,12 @@
 package ru.otus.example.service.impl;
 
 import java.util.List;
-import java.util.Scanner;
 
 import ru.otus.example.dto.StudentDto;
 import ru.otus.example.service.QuestionsService;
 import ru.otus.example.service.StudentTestingService;
 import ru.otus.example.dto.QuestionDto;
+import ru.otus.example.utils.impl.StudentIO;
 
 /**
  * @author s.melekhin
@@ -15,29 +15,23 @@ import ru.otus.example.dto.QuestionDto;
 public class StudentTestingServiceImpl implements StudentTestingService {
 
     private final QuestionsService qService;
-    private final StudentDto student;
 
-    public StudentTestingServiceImpl(QuestionsService qService, StudentDto student) {
+    public StudentTestingServiceImpl(QuestionsService qService) {
         this.qService = qService;
-        this.student = student;
     }
 
     @Override
     public void test() {
-        sayWelcome();
-        testing();
+        startTesting(welcomeStudent());
     }
 
-    private void sayWelcome() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your lastname:");
-        student.setLastname(scanner.nextLine());
-        System.out.println("Enter your firstname:");
-        student.setFirstname(scanner.nextLine());
+    private StudentDto welcomeStudent() {
+        StudentDto student = StudentIO.createStudent();
         System.out.printf("Hello %s %n", student);
+        return student;
     }
 
-    public void testing() {
+    public void startTesting(StudentDto studentDto) {
         List<QuestionDto> questionDtoList = qService.getQuestions();
         questionDtoList.forEach(questionDto -> {
             System.out.printf("Question: %s%n", questionDto.getQuestion());

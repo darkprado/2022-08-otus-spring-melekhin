@@ -13,8 +13,7 @@ class ReaderTest {
     @DisplayName("check the number of questions")
     @Test
     public void checkNumberQuestions() {
-        CsvReader reader = new CsvReader();
-        reader.setFileName("questions-test.csv");
+        CsvReader reader = new CsvReader("questions-test.csv");
         assertEquals(2, reader.readFile().size());
     }
 

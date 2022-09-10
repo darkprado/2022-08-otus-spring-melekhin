@@ -10,13 +10,10 @@
 
     <bean id="studentTestingService" class="ru.otus.example.service.impl.StudentTestingServiceImpl">
         <constructor-arg name="qService" ref="questionService"/>
-        <constructor-arg name="student" ref="student"/>
     </bean>
 
     <bean id="reader" class="ru.otus.example.utils.impl.CsvReader">
-        <property name="fileName" value="questions.csv"/>
+        <constructor-arg name="fileName" type="java.lang.String" value="questions.csv"/>
     </bean>
-
-    <bean id="student" class="ru.otus.example.dto.StudentDto"/>
 
 </beans>
