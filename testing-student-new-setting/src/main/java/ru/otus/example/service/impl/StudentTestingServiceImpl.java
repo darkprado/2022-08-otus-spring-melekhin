@@ -1,5 +1,7 @@
 package ru.otus.example.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -7,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import ru.otus.example.entity.Question;
 import ru.otus.example.entity.Student;
+import ru.otus.example.entity.StudentTest;
 import ru.otus.example.service.QuestionsService;
 import ru.otus.example.service.StudentTestingService;
 import ru.otus.example.utils.IOService;
+import ru.otus.example.utils.impl.IOServiceImpl;
 
 /**
  * @author s.melekhin
@@ -20,43 +24,50 @@ public class StudentTestingServiceImpl implements StudentTestingService {
 
     private final QuestionsService questionsService;
     private final IOService ioService;
-
     private final int successTestingPointNumber;
+    private final List<StudentTest> studentTestList;
+    private boolean continueTesting = true;
 
-
-
-    public StudentTestingServiceImpl(QuestionsService questionsService, IOService ioService, @Value("${point.success}") int successTestingPointNumber) {
+    public StudentTestingServiceImpl(QuestionsService questionsService, @Value("${point.success}") int successTestingPointNumber) {
         this.questionsService = questionsService;
-        this.ioService = ioService;
         this.successTestingPointNumber = successTestingPointNumber;
+        studentTestList = new ArrayList<>();
+        this.ioService = new IOServiceImpl(System.out, System.in);
     }
 
     @Override
     public void test() {
-        Student student = getStudent();
-        startTesting(student);
-        ioService.out(getResultTesting(student));
+        while (continueTesting) {
+            Student student = getStudent();
+            startTesting(student);
+            ioService.out("Continue testing student?(no - exit testing and return result tests)");
+            if (ioService.in().equals("no")) {
+                continueTesting = false;
+            }
+        }
+        getResultTesting(studentTestList).forEach(ioService::out);
     }
 
-    public void startTesting(Student student) {
+    public List<String> getResultTesting(List<StudentTest> studentTestList) {
+        List<String> resultList = new ArrayList<>();
+        for (StudentTest studentTest : studentTestList) {
+            resultList.add(studentTest.getTestResult());
+        }
+        return resultList;
+    }
+
+    private void startTesting(Student student) {
+        StudentTest studentTest = new StudentTest(student, new HashMap<>(), successTestingPointNumber);
         List<Question> questionList = questionsService.getQuestions();
         questionList.forEach(question -> {
             ioService.out(String.format("Question: %s", question.getQuestion()));
             ioService.out("Choose an answer:");
             question.getAnswerChoice().forEach(ioService::out);
-            if (ioService.in().equals(question.getCorrectAnswer())) {
-                student.incrementPoint();
-            }
-//            ioService.out(String.format("Correct answer: %s", question.getCorrectAnswer()));
+            String studentAnswer = ioService.in();
+            studentTest.addStudentAnswer(question.getQuestion(), question.getAnswerByAnswerName(studentAnswer));
             ioService.out("=========================================");
         });
-    }
-
-    public String getResultTesting(Student student) {
-        if (student.getPoint() >= successTestingPointNumber) {
-            return String.format("Congratulation %s, your testing success", student);
-        }
-        return String.format("%s, try again later", student);
+        studentTestList.add(studentTest);
     }
 
     private Student getStudent() {

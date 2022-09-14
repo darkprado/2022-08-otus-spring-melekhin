@@ -1,6 +1,7 @@
 package ru.otus.example.entity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author s.melekhin
@@ -9,13 +10,11 @@ import java.util.List;
 public class Question {
 
     private final String question;
-    private final List<String> answerChoice;
-    private final String correctAnswer;
+    private final List<Answer> answers;
 
-    public Question(String question, List<String> answerChoice, String correctAnswer) {
+    public Question(String question, List<Answer> answers) {
         this.question = question;
-        this.answerChoice = answerChoice;
-        this.correctAnswer = correctAnswer;
+        this.answers = answers;
     }
 
     public String getQuestion() {
@@ -23,11 +22,13 @@ public class Question {
     }
 
     public List<String> getAnswerChoice() {
-        return answerChoice;
+        return answers.stream().map(Answer::getAnswerName).collect(Collectors.toList());
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public Answer getAnswerByAnswerName(String answerName) {
+        return answers.stream()
+                .filter(answer -> answer.getAnswerName().equals(answerName))
+                .findAny().orElse(new Answer(answerName, false));
     }
 
 }

@@ -38,7 +38,7 @@ public class QuestionsServiceImplTest {
     public void initList() {
         questionsService = new QuestionsServiceImpl(reader);
         list = new ArrayList<>();
-        list.add(new Question("", Collections.emptyList(), ""));
+        list.add(new Question("", Collections.emptyList()));
     }
 
     @DisplayName("Check number questions in list")
