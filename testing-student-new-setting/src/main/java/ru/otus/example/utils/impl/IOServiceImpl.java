@@ -1,8 +1,9 @@
 package ru.otus.example.utils.impl;
 
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
+
+import org.springframework.stereotype.Service;
 
 import ru.otus.example.utils.IOService;
 
@@ -10,14 +11,15 @@ import ru.otus.example.utils.IOService;
  * @author s.melekhin
  * @since 10 сент. 2022 г.
  */
+@Service
 public class IOServiceImpl implements IOService {
 
     private final PrintStream output;
     private final Scanner input;
 
-    public IOServiceImpl(PrintStream output, InputStream input) {
-        this.output = output;
-        this.input = new Scanner(input);
+    public IOServiceImpl() {
+        this.output = new PrintStream(System.out);
+        this.input = new Scanner(System.in);
     }
 
     @Override

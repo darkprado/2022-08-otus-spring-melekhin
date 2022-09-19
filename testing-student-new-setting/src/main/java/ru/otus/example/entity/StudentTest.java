@@ -9,9 +9,6 @@ import java.util.Map;
  */
 public class StudentTest {
 
-    private static final String SUCCESS_RESULT = "Student %s, testing success, gain %s point.%s";
-    private static final String FAIL_RESULT = "Student %s, testing fail, gain %s point.%s";
-
     private final Student student;
     private Map<String, Answer> answers;
     private final int successPointForTest;
@@ -27,33 +24,25 @@ public class StudentTest {
         answers.put(questionName, answer);
     }
 
-    public String getTestResult() {
-        int correctAnswerCount = getCorrectAnswerCount();
-        return correctAnswerCount >= successPointForTest
-                ? String.format(SUCCESS_RESULT, student, correctAnswerCount, getIncorrectQuestionsWithStudentAnswer())
-                : String.format(FAIL_RESULT, student, correctAnswerCount, getIncorrectQuestionsWithStudentAnswer());
+    public boolean testingSuccess() {
+        initAnswers();
+        return getStudentPoints() >= successPointForTest;
     }
 
-    private int getCorrectAnswerCount() {
-        initAnswers();
+    public int getStudentPoints() {
         return (int) answers.values().stream().filter(Answer::isCorrect).count();
     }
 
-    private String getIncorrectQuestionsWithStudentAnswer() {
-        if (getCorrectAnswerCount() != answers.size()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(" Incorrect answers:\n");
-            answers.entrySet().stream()
-                    .filter(answer -> !answer.getValue().isCorrect())
-                    .forEach(
-                            answer -> sb.append(answer.getKey())
-                                    .append("\n")
-                                    .append(answer.getValue().getAnswerName())
-                                    .append("\n")
-                    );
-            return sb.toString();
-        }
-        return "";
+    public Map<String, Answer> getIncorrectQuestionsWithStudentAnswer() {
+        Map<String, Answer> incorrectAnswers = new HashMap<>();
+        answers.entrySet().stream().filter(answer -> !answer.getValue().isCorrect())
+                .forEach(
+                        answer -> incorrectAnswers.put(answer.getKey(), answer.getValue()));
+        return incorrectAnswers;
+    }
+
+    public String getStudent() {
+        return student.toString();
     }
 
     private void initAnswers() {
