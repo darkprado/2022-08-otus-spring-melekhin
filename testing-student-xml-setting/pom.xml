@@ -30,7 +30,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>ru.otus.example.Main</mainClass>
+                            <mainClass>ru.otus.example.StudentTestingApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
