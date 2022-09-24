@@ -39,7 +39,7 @@ public class StudentTestingServiceImpl implements StudentTestingService {
     private final IOService ioService;
     private final int successTestingPointNumber;
     private final MessageSource messageSource;
-    private final Locale locale;
+    private Locale locale;
 
     public StudentTestingServiceImpl(QuestionsService questionsService, IOService ioService, AppProps props, MessageSource messageSource) {
         this.questionsService = questionsService;
@@ -47,6 +47,10 @@ public class StudentTestingServiceImpl implements StudentTestingService {
         this.successTestingPointNumber = props.getPoint();
         this.messageSource = messageSource;
         this.locale = props.getLocale();
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     @Override
