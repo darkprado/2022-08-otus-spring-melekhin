@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import ru.otus.example.testingstudentspringboot.config.AppProps;
@@ -27,13 +26,12 @@ import ru.otus.example.testingstudentspringboot.utils.Reader;
 @Component
 public class CsvReader implements Reader {
 
-    private static final String FILENAME_KEY = "filename";
     private static final char DELIMITER = ';';
     private static final String ANSWER_DELIMITER = ":";
     private final String filename;
 
-    public CsvReader(AppProps props, MessageSource messageSource) {
-        this.filename = messageSource.getMessage(FILENAME_KEY, null, props.getLocale());
+    public CsvReader(AppProps props) {
+        this.filename = props.getFilename() + props.getLocale() + props.getFormat();
     }
 
     @Override

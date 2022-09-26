@@ -1,7 +1,9 @@
 application:
-  point: 2
-  locale: ru_RU
-#  locale: en
+  pointNumberForSuccessTesting: 2
+#  locale: ru_RU
+  filename: questions_
+  format: .csv
+  locale: en
 spring:
   messages:
     basename: i18n/appmessages

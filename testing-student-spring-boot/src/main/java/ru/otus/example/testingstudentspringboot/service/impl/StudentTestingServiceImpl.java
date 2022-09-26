@@ -2,10 +2,8 @@ package ru.otus.example.testingstudentspringboot.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import ru.otus.example.testingstudentspringboot.config.AppProps;
@@ -13,6 +11,7 @@ import ru.otus.example.testingstudentspringboot.entity.Answer;
 import ru.otus.example.testingstudentspringboot.entity.Question;
 import ru.otus.example.testingstudentspringboot.entity.Student;
 import ru.otus.example.testingstudentspringboot.entity.StudentTest;
+import ru.otus.example.testingstudentspringboot.service.MessageService;
 import ru.otus.example.testingstudentspringboot.service.QuestionsService;
 import ru.otus.example.testingstudentspringboot.service.StudentTestingService;
 import ru.otus.example.testingstudentspringboot.utils.IOService;
@@ -38,19 +37,13 @@ public class StudentTestingServiceImpl implements StudentTestingService {
     private final QuestionsService questionsService;
     private final IOService ioService;
     private final int successTestingPointNumber;
-    private final MessageSource messageSource;
-    private Locale locale;
+    private final MessageService messageService;
 
-    public StudentTestingServiceImpl(QuestionsService questionsService, IOService ioService, AppProps props, MessageSource messageSource) {
+    public StudentTestingServiceImpl(QuestionsService questionsService, IOService ioService, AppProps props, MessageServiceImpl messageService) {
         this.questionsService = questionsService;
         this.ioService = ioService;
-        this.successTestingPointNumber = props.getPoint();
-        this.messageSource = messageSource;
-        this.locale = props.getLocale();
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+        this.successTestingPointNumber = props.getPointNumberForSuccessTesting();
+        this.messageService = messageService;
     }
 
     @Override
@@ -63,15 +56,15 @@ public class StudentTestingServiceImpl implements StudentTestingService {
             } else {
                 ioService.out(getResult(FAIL_KEY, studentTest));
             }
-            ioService.out(messageSource.getMessage(CONTINUE_KEY, null, locale));
-        } while (!ioService.in().equals(messageSource.getMessage(CONFIRM_KEY, null, locale)));
+            ioService.out(messageService.getMessage(CONTINUE_KEY));
+        } while (!ioService.in().equals(messageService.getMessage(CONFIRM_KEY)));
     }
 
-    public String getResult(String template, StudentTest studentTest) {
+    private String getResult(String template, StudentTest studentTest) {
         Map<String, Answer> answers = studentTest.getIncorrectQuestionsWithStudentAnswer();
         if (!answers.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append(messageSource.getMessage(INCORRECT_KEY, null, locale));
+            sb.append(messageService.getMessage(INCORRECT_KEY));
             answers.entrySet().stream()
                     .filter(answer -> !answer.getValue().isCorrect())
                     .forEach(
@@ -80,16 +73,16 @@ public class StudentTestingServiceImpl implements StudentTestingService {
                                     .append(answer.getValue().getAnswerName())
                                     .append("\n")
                     );
-            return messageSource.getMessage(template, new String[]{studentTest.getStudent(), String.valueOf(studentTest.getStudentPoints()), sb.toString()}, locale);
+            return messageService.getMessage(template, new String[]{studentTest.getStudent(), String.valueOf(studentTest.getStudentPoints()), sb.toString()});
         }
-        return messageSource.getMessage(template, new String[]{studentTest.getStudent(), String.valueOf(studentTest.getStudentPoints()), ""}, locale);
+        return messageService.getMessage(template, new String[]{studentTest.getStudent(), String.valueOf(studentTest.getStudentPoints()), ""});
     }
 
     private StudentTest startTesting(Student student) {
         StudentTest studentTest = new StudentTest(student, new HashMap<>(), successTestingPointNumber);
         List<Question> questionList = questionsService.getQuestions();
         questionList.forEach(question -> {
-            ioService.out(messageSource.getMessage(QUESTION, new String[]{question.getQuestion()}, locale));
+            ioService.out(messageService.getMessage(QUESTION, new String[]{question.getQuestion()}));
             ioService.out(CHOOSE_KEY);
             question.getAnswerChoice().forEach(ioService::out);
             String studentAnswer = ioService.in();
@@ -101,11 +94,11 @@ public class StudentTestingServiceImpl implements StudentTestingService {
 
     private Student getStudent() {
         Student student = new Student();
-        ioService.out(messageSource.getMessage(ENTER_LASTNAME_KEY, null, locale));
+        ioService.out(messageService.getMessage(ENTER_LASTNAME_KEY));
         student.setLastname(ioService.in());
-        ioService.out(messageSource.getMessage(ENTER_FIRSTNAME_KEY, null, locale));
+        ioService.out(messageService.getMessage(ENTER_FIRSTNAME_KEY));
         student.setFirstname(ioService.in());
-        ioService.out(messageSource.getMessage(BRIEFING_KEY, new String[]{student.toString()}, locale));
+        ioService.out(messageService.getMessage(BRIEFING_KEY, new String[]{student.toString()}));
         return student;
     }
 

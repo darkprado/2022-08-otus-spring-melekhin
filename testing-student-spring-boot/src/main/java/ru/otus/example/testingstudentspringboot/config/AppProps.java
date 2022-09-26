@@ -14,7 +14,11 @@ import org.springframework.stereotype.Component;
 public class AppProps {
 
     private Locale locale;
-    private int point;
+    private int pointNumberForSuccessTesting;
+
+    private String filename;
+
+    private String format;
 
     public Locale getLocale() {
         return locale;
@@ -24,12 +28,28 @@ public class AppProps {
         this.locale = locale;
     }
 
-    public int getPoint() {
-        return point;
+    public int getPointNumberForSuccessTesting() {
+        return pointNumberForSuccessTesting;
     }
 
-    public void setPoint(int point) {
-        this.point = point;
+    public void setPointNumberForSuccessTesting(int pointNumberForSuccessTesting) {
+        this.pointNumberForSuccessTesting = pointNumberForSuccessTesting;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 
 }
