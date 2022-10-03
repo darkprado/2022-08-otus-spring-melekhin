@@ -11,7 +11,7 @@ public class TestingStudentSpringBootApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(TestingStudentSpringBootApplication.class, args);
-        StudentTestingService studentTestingService = (StudentTestingService)context.getBean("studentTestingServiceImpl");
+        StudentTestingService studentTestingService = context.getBean(StudentTestingService.class);
         studentTestingService.test();
     }
 

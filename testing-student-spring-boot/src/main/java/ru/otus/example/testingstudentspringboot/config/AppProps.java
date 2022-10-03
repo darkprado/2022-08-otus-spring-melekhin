@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @ConfigurationProperties(prefix = "application")
 @Component
-public class AppProps {
+public class AppProps implements MessageLocaleProps, SuccessPointsProps {
 
     private Locale locale;
     private int pointNumberForSuccessTesting;
@@ -20,18 +20,22 @@ public class AppProps {
 
     private String format;
 
+    @Override
     public Locale getLocale() {
         return locale;
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
+    @Override
     public int getPointNumberForSuccessTesting() {
         return pointNumberForSuccessTesting;
     }
 
+    @Override
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    @Override
     public void setPointNumberForSuccessTesting(int pointNumberForSuccessTesting) {
         this.pointNumberForSuccessTesting = pointNumberForSuccessTesting;
     }

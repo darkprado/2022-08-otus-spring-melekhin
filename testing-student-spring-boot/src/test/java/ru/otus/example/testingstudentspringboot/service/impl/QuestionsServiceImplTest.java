@@ -7,9 +7,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import ru.otus.example.testingstudentspringboot.entity.Question;
 import ru.otus.example.testingstudentspringboot.service.QuestionsService;
@@ -23,10 +22,10 @@ import static org.mockito.BDDMockito.given;
  * @since 23 сент. 2022 г.
  */
 @DisplayName("QuestionsServiceImpl class test")
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class QuestionsServiceImplTest {
 
-    @Mock
+    @MockBean
     private Reader reader;
 
     private QuestionsService questionsService;

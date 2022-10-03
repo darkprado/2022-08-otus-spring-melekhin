@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import ru.otus.example.testingstudentspringboot.config.AppProps;
+import ru.otus.example.testingstudentspringboot.config.SuccessPointsProps;
 import ru.otus.example.testingstudentspringboot.entity.Answer;
 import ru.otus.example.testingstudentspringboot.entity.Question;
 import ru.otus.example.testingstudentspringboot.entity.Student;
@@ -39,10 +39,10 @@ public class StudentTestingServiceImpl implements StudentTestingService {
     private final int successTestingPointNumber;
     private final MessageService messageService;
 
-    public StudentTestingServiceImpl(QuestionsService questionsService, IOService ioService, AppProps props, MessageServiceImpl messageService) {
+    public StudentTestingServiceImpl(QuestionsService questionsService, IOService ioService, SuccessPointsProps successPointsProps, MessageService messageService) {
         this.questionsService = questionsService;
         this.ioService = ioService;
-        this.successTestingPointNumber = props.getPointNumberForSuccessTesting();
+        this.successTestingPointNumber = successPointsProps.getPointNumberForSuccessTesting();
         this.messageService = messageService;
     }
 
