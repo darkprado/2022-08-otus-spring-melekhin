@@ -33,7 +33,4 @@ public class MessageServiceImpl implements MessageService {
         return messageSource.getMessage(key, args, locale);
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
 }

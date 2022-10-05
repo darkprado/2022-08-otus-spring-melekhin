@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -28,13 +29,13 @@ public class QuestionsServiceImplTest {
     @MockBean
     private Reader reader;
 
+    @Autowired
     private QuestionsService questionsService;
 
     private List<Question> list;
 
     @BeforeEach
     public void initList() {
-        questionsService = new QuestionsServiceImpl(reader);
         list = new ArrayList<>();
         list.add(new Question("", Collections.emptyList()));
     }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @ConfigurationProperties(prefix = "application")
 @Component
-public class AppProps implements MessageLocaleProps, SuccessPointsProps {
+public class AppProps implements MessageLocaleProps, SuccessPointsProps, FilenameProps {
 
     private Locale locale;
     private int pointNumberForSuccessTesting;
@@ -40,8 +40,9 @@ public class AppProps implements MessageLocaleProps, SuccessPointsProps {
         this.pointNumberForSuccessTesting = pointNumberForSuccessTesting;
     }
 
+    @Override
     public String getFilename() {
-        return filename;
+        return filename + locale + format;
     }
 
     public void setFilename(String filename) {

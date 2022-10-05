@@ -13,7 +13,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.springframework.stereotype.Component;
 
-import ru.otus.example.testingstudentspringboot.config.AppProps;
+import ru.otus.example.testingstudentspringboot.config.FilenameProps;
 import ru.otus.example.testingstudentspringboot.entity.Answer;
 import ru.otus.example.testingstudentspringboot.entity.Question;
 import ru.otus.example.testingstudentspringboot.enums.CsvPositions;
@@ -30,8 +30,8 @@ public class CsvReader implements Reader {
     private static final String ANSWER_DELIMITER = ":";
     private final String filename;
 
-    public CsvReader(AppProps props) {
-        this.filename = props.getFilename() + props.getLocale() + props.getFormat();
+    public CsvReader(FilenameProps props) {
+        this.filename = props.getFilename();
     }
 
     @Override
