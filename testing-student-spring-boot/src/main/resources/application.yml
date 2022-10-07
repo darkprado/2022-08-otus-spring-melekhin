@@ -1,0 +1,10 @@
+application:
+  pointNumberForSuccessTesting: 2
+#  locale: ru_RU
+  filename: questions_
+  format: .csv
+  locale: en
+spring:
+  messages:
+    basename: i18n/appmessages
+    encoding: UTF-8
