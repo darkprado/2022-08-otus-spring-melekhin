@@ -37,14 +37,14 @@ public class MessageServiceImplTest {
 
     @DisplayName("Check success string")
     @Test
-    public void CheckSuccessString() {
+    public void checkSuccessString() {
         String expectedResult = "Student {0}, testing success, gain {1} point.{2}";
         assertEquals(expectedResult, messageService.getMessage(SUCCESS_KEY));
     }
 
     @DisplayName("Check fail string")
     @Test
-    public void CheckFailString() {
+    public void checkFailString() {
         String expectedResult = "Student {0}, testing fail, gain {1} point.{2}";
         assertEquals(expectedResult, messageService.getMessage(FAIL_KEY));
     }
