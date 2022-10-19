@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import ru.otus.example.springjdbc.dao.GenreDao;
 import ru.otus.example.springjdbc.domain.Genre;
 import ru.otus.example.springjdbc.service.GenreService;
-import ru.otus.example.springjdbc.utils.IOService;
 
 /**
  * @author s.melekhin
@@ -19,46 +18,29 @@ import ru.otus.example.springjdbc.utils.IOService;
 public class GenreServiceImpl implements GenreService {
 
     private final GenreDao dao;
-    private final IOService ioService;
 
     @Override
-    public void findAll() {
-        List<Genre> genres = dao.getAll();
-        ioService.out("Список жанров:");
-        genres.forEach(genre -> ioService.out(genre.toString()));
+    public List<Genre> findAll() {
+        return dao.getAll();
     }
 
     @Override
-    public void findById(long id) {
-        Genre genre = dao.getById(id).orElse(null);
-        if (genre == null) {
-            ioService.out(String.format("Жанр с id = %s не найден", id));
-            findAll();
-        } else {
-            ioService.out(genre.toString());
-        }
+    public Genre findById(long id) {
+        return dao.getById(id).orElse(null);
     }
 
     @Override
-    public void save() {
-        ioService.out("Введите название жанра");
-        String name = ioService.in();
-        dao.insert(new Genre(name));
+    public long save(String name) {
+        return dao.insert(new Genre(name));
     }
 
     @Override
-    public void deleteById(long id) {
-        if (dao.deleteById(id) == 1) {
-            ioService.out("Жанр удален");
-        } else {
-            ioService.out(String.format("Жанр c id = %s не найден", id));
-        }
+    public long deleteById(long id) {
+        return dao.deleteById(id);
     }
 
     @Override
-    public void update(long id) {
-        ioService.out("Введите название жанра");
-        String name = ioService.in();
-        dao.update(new Genre(id, name));
+    public long update(long id, String name) {
+        return dao.update(new Genre(id, name));
     }
 }

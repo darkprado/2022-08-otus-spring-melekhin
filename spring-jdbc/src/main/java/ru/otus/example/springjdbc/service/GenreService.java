@@ -1,19 +1,23 @@
 package ru.otus.example.springjdbc.service;
 
+import java.util.List;
+
+import ru.otus.example.springjdbc.domain.Genre;
+
 /**
  * @author s.melekhin
  * @since 16 окт. 2022 г.
  */
 public interface GenreService {
 
-    void findAll();
+    List<Genre> findAll();
 
-    void findById(long id);
+    Genre findById(long id);
 
-    void save();
+    long save(String name);
 
-    void deleteById(long id);
+    long deleteById(long id);
 
-    void update(long id);
+    long update(long id, String name);
 
 }

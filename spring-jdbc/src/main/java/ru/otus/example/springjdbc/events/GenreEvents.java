@@ -1,25 +1,28 @@
 package ru.otus.example.springjdbc.events;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
-import lombok.RequiredArgsConstructor;
-import ru.otus.example.springjdbc.service.GenreService;
+import ru.otus.example.springjdbc.service.InfoService;
 
 /**
  * @author s.melekhin
  * @since 16 окт. 2022 г.
  */
 @ShellComponent
-@RequiredArgsConstructor
 public class GenreEvents {
 
-    private final GenreService service;
+    private final InfoService service;
+
+    public GenreEvents(@Qualifier("genreInfoService") InfoService service) {
+        this.service = service;
+    }
 
     @ShellMethod(value = "Получение всех жанров", key = { "all genres", "all g", "g" })
     public void getAll() {
-        service.findAll();
+        service.getAllInfo();
     }
 
     @ShellMethod(value = "Сохранение жанра", key = { "save genre", "save g", "s g" })
@@ -29,7 +32,7 @@ public class GenreEvents {
 
     @ShellMethod(value = "Получение жанра", key = { "get genre", "get g", "g g" })
     public void getGenre(@ShellOption long id) {
-        service.findById(id);
+        service.getInfoById(id);
     }
 
     @ShellMethod(value = "Обновление жанра", key = { "update genre", "update g", "u g" })

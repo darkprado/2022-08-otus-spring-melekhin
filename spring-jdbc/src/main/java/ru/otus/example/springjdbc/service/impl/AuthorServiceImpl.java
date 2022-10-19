@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import ru.otus.example.springjdbc.dao.AuthorDao;
 import ru.otus.example.springjdbc.domain.Author;
 import ru.otus.example.springjdbc.service.AuthorService;
-import ru.otus.example.springjdbc.utils.IOService;
 
 /**
  * @author s.melekhin
@@ -19,51 +18,30 @@ import ru.otus.example.springjdbc.utils.IOService;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorDao dao;
-    private final IOService ioService;
 
     @Override
-    public void findAll() {
-        List<Author> authors = dao.getAll();
-        ioService.out("Список авторов:");
-        authors.forEach(author -> ioService.out(author.toString()));
+    public List<Author> findAll() {
+        return dao.getAll();
     }
 
     @Override
-    public void findById(long id) {
-        Author author = dao.getById(id).orElse(null);
-        if (author == null) {
-            ioService.out(String.format("Автор с id = %s не найден", id));
-            findAll();
-        } else {
-            ioService.out(author.toString());
-        }
+    public Author findById(long id) {
+        return dao.getById(id).orElse(null);
     }
 
     @Override
-    public void save() {
-        ioService.out("Введите имя автора");
-        String firstname = ioService.in();
-        ioService.out("Введите фамилию автора");
-        String lastname = ioService.in();
-        dao.insert(new Author(firstname, lastname));
+    public long save(String firstname, String lastname) {
+        return dao.insert(new Author(firstname, lastname));
     }
 
     @Override
-    public void deleteById(long id) {
-        if (dao.deleteById(id) == 1) {
-            ioService.out("Автор удален");
-        } else {
-            ioService.out(String.format("Автор c id = %s не найден", id));
-        }
+    public long deleteById(long id) {
+       return dao.deleteById(id);
     }
 
     @Override
-    public void update(long id) {
-        ioService.out("Введите имя автора");
-        String firstname = ioService.in();
-        ioService.out("Введите фамилию автора");
-        String lastname = ioService.in();
-        dao.update(new Author(id, firstname, lastname));
+    public long update(long id, String firstname, String lastname) {
+        return dao.update(new Author(id, firstname, lastname));
     }
 
 }

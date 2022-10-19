@@ -1,25 +1,28 @@
 package ru.otus.example.springjdbc.events;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
-import lombok.RequiredArgsConstructor;
-import ru.otus.example.springjdbc.service.AuthorService;
+import ru.otus.example.springjdbc.service.InfoService;
 
 /**
  * @author s.melekhin
  * @since 16 окт. 2022 г.
  */
 @ShellComponent
-@RequiredArgsConstructor
 public class AuthorEvents {
 
-    private final AuthorService service;
+    private final InfoService service;
+
+    public AuthorEvents(@Qualifier("bookInfoService") InfoService service) {
+        this.service = service;
+    }
 
     @ShellMethod(value = "Получение всех авторов", key = { "all authors", "all a", "a a", "a" })
     public void getAll() {
-        service.findAll();
+        service.getAllInfo();
     }
 
     @ShellMethod(value = "Сохранение автора", key = { "save author", "save a", "s a" })
@@ -29,7 +32,7 @@ public class AuthorEvents {
 
     @ShellMethod(value = "Получение автора", key = { "get author", "get a", "g a" })
     public void getAuthor(@ShellOption long id) {
-        service.findById(id);
+        service.getInfoById(id);
     }
 
     @ShellMethod(value = "Обновление автора", key = { "update author", "update a", "u a" })
