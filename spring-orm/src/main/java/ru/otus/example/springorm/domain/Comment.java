@@ -36,7 +36,6 @@ public class Comment {
     @Column(name = "comment_text")
     private String comment;
     @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "book_id")
     private Book book;
 

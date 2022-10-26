@@ -2,9 +2,6 @@ package ru.otus.example.springorm.domain;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,12 +29,10 @@ public class Book {
 
     @ManyToOne(targetEntity = Author.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
-    @Fetch(value = FetchMode.JOIN)
     private Author author;
 
     @ManyToOne(targetEntity = Genre.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
-    @Fetch(value = FetchMode.JOIN)
     private Genre genre;
 
 }
