@@ -27,7 +27,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public List<Comment> findAllByBook(long bookId) {
-        return repository.findAll(Example.of(new Comment(null, null, new Book(bookId, null, null, null))));
+        // коммент оставил для примера себе на память
+//        return repository.findAll(Example.of(new Comment(null, null, new Book(bookId, null, null, null))));
+        return repository.findByBookId(bookId);
     }
 
     @Override
