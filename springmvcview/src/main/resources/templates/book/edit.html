@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Редактирование книги</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<form id="edit-form"th:action="@{/book/edit(id=${book.id})}" th:method="post" th:object="${book}">
+    <h3>Редактирование книги</h3>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly="readonly" th:value="*{id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="genre-name-input">Название книги:</label>
+        <input id="genre-name-input" name="name" type="text" th:value="*{name}" value="Роман"/>
+    </div>
+
+    <div class="row">
+        <label for="author-book">Автор:</label>
+        <select class="form-control" id="author-book" name="author">
+            <option th:text="*{author.getFirstname()} + ' ' + *{author.getLastname()}">Выберите автора</option>
+            <option th:each="author : ${authors}"
+                    th:value="${author.getId()}"
+                    th:text="${author}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="genre-book">Жанр:</label>
+        <select class="form-control" id="genre-book" name="genre">
+            <option th:text="*{genre.name}">Выберите жанр</option>
+            <option th:each="genre : ${genres}"
+                    th:value="${genre.getId()}"
+                    th:text="${genre}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type="submit">Изменить</button>
+        <a th:href="@{/book/all}"><button type="button">Отменить</button></a>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Удаление автора</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <form th:action="@{/author/delete(id=${author.id})}" th:method="post">
+
+        <div class="form-group">
+            <label for="id">Хотите удалить автора с ID?</label>
+            <input type="text" readonly="readonly" class="form-control" id="id" th:value="${author.id}" value="0">
+        </div>
+        <button type="submit" class="btn btn-primary">Удалить</button>
+    </form>
+    <br>
+    <a th:href="@{/author/all}">К списку авторов</a>
+</div>
+
+</body>
+</html>

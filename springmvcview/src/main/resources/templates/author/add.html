@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Добавление жанра</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<form id="edit-form" th:action="@{/author/add}" th:method="post">
+    <h3>Добавление автора</h3>
+
+    <div class="row">
+        <label for="author-firstname-input">Имя:</label>
+        <input id="author-firstname-input" name="firstname" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="author-lastname-input">Фамилия:</label>
+        <input id="author-lastname-input" name="lastname" type="text"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Сохранить</button>
+        <a th:href="@{/author/all}"><button type="button">Отменить</button></a>
+    </div>
+</form>
+
+</body>
+</html>

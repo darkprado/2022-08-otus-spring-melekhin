@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Добавление комментария</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<form id="edit-form" th:action="@{/comment/add(id=${bookId})}" th:method="post">
+    <h3>Добавление комментария</h3>
+
+    <div class="row">
+        <label for="bookId-input">ID книги:</label>
+        <input id="bookId-input" name="bookId" type="text" readonly="readonly" th:value="${bookId}"/>
+    </div>
+
+    <div class="row">
+        <label for="comment-input">Комментарий:</label>
+        <input id="comment-input" name="comment" type="text"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Сохранить</button>
+        <a th:href="@{/comment/all}"><button type="button">Отменить</button></a>
+    </div>
+</form>
+
+</body>
+</html>

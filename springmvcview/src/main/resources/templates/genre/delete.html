@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Удаление жанра</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <form th:action="@{/genre/delete(id=${genre.getId()})}" th:method="post" action="genre/delete.html">
+
+        <div class="form-group">
+            <label for="id">Хотите удалить жанр с ID?</label>
+            <input type="text" readonly="readonly" class="form-control" id="id" th:value="${genre.getId()}" value="0">
+        </div>
+        <button type="submit" class="btn btn-primary">Удалить</button>
+    </form>
+    <br>
+    <a th:href="@{/genre/all}">К списку жанров</a>
+</div>
+
+</body>
+</html>
