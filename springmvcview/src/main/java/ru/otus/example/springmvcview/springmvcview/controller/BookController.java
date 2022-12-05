@@ -4,13 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import ru.otus.example.springmvcview.springmvcview.domain.Author;
 import ru.otus.example.springmvcview.springmvcview.domain.Book;
 import ru.otus.example.springmvcview.springmvcview.domain.Genre;
-import ru.otus.example.springmvcview.springmvcview.dto.AuthorDto;
 import ru.otus.example.springmvcview.springmvcview.dto.BookDto;
 import ru.otus.example.springmvcview.springmvcview.service.AuthorService;
 import ru.otus.example.springmvcview.springmvcview.service.BookService;

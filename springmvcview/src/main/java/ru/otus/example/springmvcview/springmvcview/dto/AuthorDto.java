@@ -1,7 +1,5 @@
 package ru.otus.example.springmvcview.springmvcview.dto;
 
-import javax.persistence.Column;
-
 import lombok.Data;
 
 /**
