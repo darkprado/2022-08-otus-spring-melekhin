@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список комментариев к книге</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .comments {
+            border: 1px solid steelblue;
+            width: 600px;
+            border-collapse: collapse;
+        }
+
+        .comments tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .comments td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        h3 {
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h3 th:text="'Список комментариев к книге ' +  ${comments[0].getBook().getName()}">Список комментариев:</h3>
+<a th:href="@{/book/all}">К книгам</a><br>
+<a th:href="@{/author/all}">К авторам</a><br>
+<a th:href="@{/genre/all}">К жанрам</a>
+<table class="comments">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Комментарий</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.getId()}">...</td>
+        <td th:text="${comment.getComment()}">...</td>
+        <td>
+            <a th:href="@{/comment/edit(id=${comment.id})}">Редактировать</a>
+            <a th:href="@{/comment/delete(id=${comment.id})}">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/comment/add(bookId=${comments.get(0).getBook().getId()})}">Добавить</a>
+</body>
+</html>

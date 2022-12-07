@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Добавление жанра</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<form id="edit-form" action="genre/add.html" th:action="@{/genre/add}" th:method="post">
+    <h3>Добавление жанра</h3>
+
+    <div class="row">
+        <label for="genre-name-input">Имя жанра:</label>
+        <input id="genre-name-input" name="name" type="text"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Сохранить</button>
+        <a th:href="@{/genre/all}"><button type="button">Отменить</button></a>
+    </div>
+</form>
+
+</body>
+</html>

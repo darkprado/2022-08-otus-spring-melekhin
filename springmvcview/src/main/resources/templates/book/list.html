@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список книг</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books {
+            border: 1px solid steelblue;
+            width: 600px;
+            border-collapse: collapse;
+        }
+
+        .books tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .books td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        h3 {
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h3>Books:</h3>
+<a th:href="@{/author/all}">К авторам</a><br>
+<a th:href="@{/genre/all}">К жанрам</a>
+<table class="books">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Название</th>
+        <th>Автор</th>
+        <th>Жанр</th>
+        <th>Comments</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.getId()}">...</td>
+        <td th:text="${book.getName()}">...</td>
+        <td th:text="${book.author.getFirstname()} + ' ' + ${book.author.getLastname()}">...</td>
+        <td th:text="${book.genre.getName()}">...</td>
+        <td>
+            <a th:href="@{/comment/all/book(id=${book.id})}">Комментарии</a>
+        </td>
+        <td>
+            <a th:href="@{/book/edit(id=${book.id})}">Редактировать</a>
+            <a th:href="@{/book/delete(id=${book.id})}">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/book/add}">Добавить</a>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Редактирование автора</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<form id="edit-form" th:action="@{/author/edit(id=${author.id})}" th:method="post" th:object="${author}">
+    <h3>Редактирование автора</h3>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly="readonly" th:value="*{id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="author-firstname-input">Имя автора:</label>
+        <input id="author-firstname-input" name="firstname" type="text" th:value="*{firstname}" value="Роман"/>
+    </div>
+
+    <div class="row">
+        <label for="author-lastname-input">Фамилия автора:</label>
+        <input id="author-lastname-input" name="lastname" type="text" th:value="*{lastname}" value="Роман"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Изменить</button>
+        <a th:href="@{/author/all}"><button type="button">Отменить</button></a>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Редактирование жанра</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<form id="edit-form"th:action="@{/comment/edit(id=${comment.id})}" th:method="post" th:object="${comment}">
+    <h3>Редактирование комментария</h3>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly="readonly" th:value="*{id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="comment-input">Комментарий:</label>
+        <input id="comment-input" name="comment" type="text" th:value="*{comment}" value="Роман"/>
+    </div>
+
+    <div class="row">
+        <label for="bookId-input">ID книги:</label>
+        <input id="bookId-input" hidden name="bookId" type="text" readonly="readonly" th:value="*{comment.book.id}"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Изменить</button>
+        <a th:href="@{/comment/all/book(id=${comment.getBook().getId()})}"><button type="button">Отменить</button></a>
+    </div>
+</form>
+
+</body>
+</html>

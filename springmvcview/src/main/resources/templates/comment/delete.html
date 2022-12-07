@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Удаление комментария</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <form th:action="@{/comment/delete(id=${comment.getId()})}" th:method="post">
+
+        <div class="form-group">
+            <label for="id">Хотите удалить комментарий с ID?</label>
+            <input type="text" readonly="readonly" class="form-control" id="id" th:value="${comment.getId()}">
+        </div>
+        <button type="submit" class="btn btn-primary">Удалить</button>
+    </form>
+    <br>
+    <a th:href="@{/comment/all/book(id=${comment.getBook().getId()})}">К списку комментариев</a>
+</div>
+
+</body>
+</html>

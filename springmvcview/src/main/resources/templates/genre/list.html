@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список жанров</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .genres {
+            border: 1px solid steelblue;
+            width: 600px;
+            border-collapse: collapse;
+        }
+
+        .genres tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .genres td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        h3 {
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h3>Жанры:</h3>
+<a th:href="@{/book/all}">К книгам</a><br>
+<a th:href="@{/author/all}">К авторам</a>
+<table class="genres">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Название</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.getId()}">...</td>
+        <td th:text="${genre.getName()}">...</td>
+        <td>
+            <a th:href="@{/genre/edit(id=${genre.id})}" href="genre/edit.html">Редактировать</a>
+            <a th:href="@{/genre/delete(id=${genre.id})}" href="genre/delete.html">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/genre/add}">Добавить</a>
+</body>
+</html>
