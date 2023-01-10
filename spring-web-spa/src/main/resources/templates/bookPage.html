@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all books</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books {
+            border-collapse: collapse;
+        }
+
+        .books tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .books td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        input {: 80 px;
+
+        }
+
+    </style>
+    <link rel="shortcut icon" href="#">
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="books" id="books"></div>
+</body>
+
+</html>
+
+<script>
+
+    window.addEventListener("DOMContentLoaded", getAllBooks)
+
+    async function getAllBooks() {
+        const res = await fetch('/api/book/all')
+        const books = await res.json();
+        document.getElementById('books').innerHTML = "";
+        console.log(books)
+        booksTable();
+        books.forEach(book => rowTableBook(book))
+
+    }
+
+    function booksTable() {
+        const bookList = document.getElementById('books');
+        bookList.insertAdjacentHTML('beforeend', `
+
+     <h1>Books</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-books">
+
+        </tbody>
+    </table>
+    <button type="button" th:text="New_Book" onclick="booksAdd()">New book</button>
+     `)
+    }
+
+    function rowTableBook({id, name, genre, author}) {
+        const booksTable = document.getElementById('tbody-books');
+        booksTable.insertAdjacentHTML('beforeend', `
+                   <tr>
+                        <td>${id}</td>
+                        <td>${name}</td>
+                        <td>${author.firstname} ${author.lastname}</td>
+                        <td>${genre.name}</td>
+                        <td><button type="button"  id="editBook" onclick="bookInfoForEdit(${id})" th:text="Edit"</button>Edit</a></td>
+                        <td><button type="button"  id="deleteBook" onclick="deleteBook(${id})" th:text="Delete"</button>Delete</a></td>
+
+                    </tr>
+        `)
+    }
+
+    async function booksAdd() {
+        let genres = await getAllGenres();
+        let authors = await getAllAuthor();
+        const bookList = document.getElementById('books');
+        bookList.innerHTML = "";
+        bookList.insertAdjacentHTML('beforeend', `
+     <h1>Book Save</h1>
+    <table>
+        <tbody id="tbody-books">
+            <form id="bookSave-form" method="POST"">
+                <div class="row">
+                    <label for="book-name-input">Name:</label>
+                    <input id="book-name-input" name="name" type="text"/>
+                </div>
+                <div class="row">
+                    <label for="author-book">Author:</label>
+                    <select class="form-control" id="author-book" name="author">
+                        <option value="">Select author</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="genre-book">Genre:</label>
+                    <select class="form-control" id="genre-book" name="genre">
+                        <option value="">Select genre</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <button type="submit"  formmethod="POST" onclick="saveBook()" text="Save">Save</button>
+                    <button type="button" onclick="getAllBooks()" th:text="Cancel">Cancel</button>
+                </div>
+            </form>
+        </tbody>
+    </table>
+     `)
+
+        authors.forEach(author => {
+            let authorOption = document.createElement('option');
+            authorOption.value = author.id;
+            authorOption.text = author.firstname + " " + author.lastname;
+            document.getElementById('author-book').appendChild(authorOption);
+        })
+
+        genres.forEach(genre => {
+            let genreOption = document.createElement('option');
+            genreOption.value = genre.id
+            genreOption.innerHTML = genre.name;
+            document.getElementById('genre-book').appendChild(genreOption);
+        })
+
+    }
+
+    async function bookInfoForEdit(id) {
+        let book = await getBook(id);
+        let genres = await getAllGenres();
+        let authors = await getAllAuthor();
+        const bookList = document.getElementById('books');
+        bookList.innerHTML = "";
+        bookList.insertAdjacentHTML('beforeend', `
+     <h1>Book Edit</h1>
+    <table>
+        <tbody id="tbody-books">
+            <form id="bookEdit-form" method="POST"">
+                <div class="row">
+                    <label for="book-id-input">Id:</label>
+                    <input disabled id="book-id-input" name="name" value="${book.id}" type="text"/>
+                </div>
+                <div class="row">
+                    <label for="book-name-input">Name:</label>
+                     <input disabled  name="name-old" value="Old name=${book.name}" type="text"/>
+                    <input id="book-name-edit-input" name="name-edit" value="" type="text"/>
+                </div>
+                <div class="row">
+                    <label for="author-book">Author:</label>
+                     <input disabled  name="name-old" value="Old author=${book.author.firstname} ${book.author.lastname}" type="text"/>
+                    <select class="form-control" id="author-book-edit" value="" name="author">
+                        <option value="" ></option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="genre-book">Genre:</label>
+                     <input disabled  name="name-old" value="Old author=${book.genre.name}" type="text"/>
+                    <select class="form-control" id="genre-book-edit"  name="genre">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="row">
+                    <button type="submit"  formmethod="POST" onclick="editBook()" text="Save">Save</button>
+                    <button type="button" onclick="getAllBooks()" th:text="Cancel">Cancel</button>
+                </div>
+            </form>
+        </tbody>
+    </table>
+     `)
+
+        authors.forEach(author => {
+            let authorOption = document.createElement('option');
+            authorOption.value = author.id;
+            authorOption.text = author.firstname + " " + author.lastname;
+            document.getElementById('author-book-edit').appendChild(authorOption);
+        })
+
+        genres.forEach(genre => {
+            let genreOption = document.createElement('option');
+            genreOption.value = genre.id
+            genreOption.innerHTML = genre.name;
+            document.getElementById('genre-book-edit').appendChild(genreOption);
+        })
+
+    }
+
+    async function saveBook() {
+        let name = document.getElementById("book-name-input").value;
+        let author = await getAuthor(document.getElementById("author-book").value);
+        let genre = await getGenres(document.getElementById("genre-book").value);
+        let book = new BookDto(null, name, author, genre);
+        let json = JSON.stringify(book);
+
+        await fetch('/api/book', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: json
+        })
+        await getAllBooks();
+    }
+
+    async function getBook(id) {
+        const res = await fetch('/api/book/' + id);
+        return await res.json();
+    }
+
+    async function editBook() {
+        let id = document.getElementById("book-id-input").value;
+        let name = document.getElementById("book-name-edit-input").value;
+        let author = await getAuthor(document.getElementById("author-book-edit").value);
+        let genre = await getGenres(document.getElementById("genre-book-edit").value);
+        let book = new BookDto(id, name, author, genre);
+        let json = JSON.stringify(book);
+
+        await fetch('/api/book', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: json
+        })
+        await getAllBooks();
+    }
+
+    async function deleteBook(id) {
+        await fetch('/api/book/' + id, {
+            method: 'DELETE'
+        })
+        await getAllBooks();
+    }
+
+    async function getAllAuthor() {
+        const res = await fetch('/api/author/all')
+        return await res.json();
+    }
+
+    async function getAllGenres() {
+        const res = await fetch('/api/genre/all')
+        return res.json();
+    }
+
+    async function getGenres(id) {
+        const res = await fetch('/api/genre/' + id);
+        return res.json();
+    }
+
+    async function getAuthor(id) {
+        const res = await fetch('/api/author/' + id);
+        return res.json();
+    }
+
+    class BookDto {
+        constructor(id, name, author, genre) {
+            this.id = id;
+            this.name = name;
+            this.author = author;
+            this.genre = genre;
+        }
+    }
+
+</script>
